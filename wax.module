@@ -4,7 +4,6 @@
 /**
  * Implementation of hook_openlayers_behaviors().
  *
- * This is a ctools plugins hook.
  */
 function wax_openlayers_behaviors() {
   return array(
