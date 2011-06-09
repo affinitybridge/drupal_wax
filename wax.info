@@ -1,0 +1,5 @@
+; $Id$
+name = "Wax OpenLayers Connector"
+description = "Connect Wax with OpenLayers"
+dependencies[] = openlayers
+core = "6.x"

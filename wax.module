@@ -1,0 +1,21 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_openlayers_behaviors().
+ *
+ * This is a ctools plugins hook.
+ */
+function wax_openlayers_behaviors() {
+  return array(
+    'wax_interaction' => array(
+      'title' => t('Wax Interaction'),
+      'behavior' => array(
+        'path' => drupal_get_path('module', 'wax') .'/behaviors',
+        'file' =>  'wax_interaction.inc',
+        'class' => 'wax_interaction',
+        'parent' => 'openlayers_behavior',
+      ),
+    ),
+  );
+}
