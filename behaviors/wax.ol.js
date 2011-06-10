@@ -1725,7 +1725,7 @@ wax.ol.Legend = OpenLayers.Class(OpenLayers.Control, {
 // Wax header
 var wax = wax || {};
 wax.ol = wax.ol || {};
-
+var $ = jQuery; // This is a hack and needs to be fixed.
 wax.ol.Switcher = OpenLayers.Class(OpenLayers.Control, {
     CLASS_NAME: 'wax.ol.Switcher',
 

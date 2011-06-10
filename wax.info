@@ -2,4 +2,4 @@
 name = "Wax OpenLayers"
 description = "Connector for Wax with OpenLayers"
 dependencies[] = openlayers
-core = "6.x"
+core = "7.x"
