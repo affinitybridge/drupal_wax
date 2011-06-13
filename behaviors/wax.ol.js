@@ -1206,7 +1206,7 @@ wax.request = {
             // Request.
             var that = this;
             this.locks[url] = true;
-            $.jsonp({
+            jQuery.jsonp({
                 url: url,
                 context: this,
                 callback: 'grid',
@@ -1256,7 +1256,7 @@ wax.GridInstance.prototype.getFeature = function(x, y, tile_element, options) {
       var tileX = tile_element.left,
           tileY = tile_element.top;
   } else {
-      var $tile_element = $(tile_element);
+      var $tile_element = jQuery(tile_element);
       var tileX = $tile_element.offset().left;
           tileY = $tile_element.offset().top;
   }
@@ -1377,15 +1377,15 @@ wax.Formatter.prototype.format = function(options, data) {
 var wax = wax || {};
 
 wax.Legend = function(context, container) {
-    (!container) && (container = $('<div class="wax-legends"></div>'));
+    (!container) && (container = jQuery('<div class="wax-legends"></div>'));
     this.context = context;
     this.container = container;
     this.legends = {};
-    $(this.context).append(this.container);
+    jQuery(this.context).append(this.container);
 };
 
 wax.Legend.prototype.render = function(urls) {
-    $('.wax-legend', this.container).hide();
+    jQuery('.wax-legend', this.container).hide();
 
     var that = this;
     var render = function(content) {
@@ -1394,7 +1394,7 @@ wax.Legend.prototype.render = function(urls) {
         } else if (that.legends[url]) {
             that.legends[url].show();
         } else {
-            that.legends[url] = $("<div class='wax-legend'></div>").append(content);
+            that.legends[url] = jQuery("<div class='wax-legend'></div>").append(content);
             that.container.append(that.legends[url]);
         }
     };
@@ -1420,20 +1420,20 @@ wax.tooltip = {};
 // Get the active tooltip for a layer or create a new one if no tooltip exists.
 // Hide any tooltips on layers underneath this one.
 wax.tooltip.getToolTip = function(feature, context, index, evt) {
-    var tooltip = $(context).children('div.wax-tooltip-' +
+    var tooltip = jQuery(context).children('div.wax-tooltip-' +
         index +
         ':not(.removed)');
     if (tooltip.size() === 0) {
-        tooltip = $("<div class='wax-tooltip wax-tooltip-" +
+        tooltip = jQuery("<div class='wax-tooltip wax-tooltip-" +
             index +
             "'>" +
             "</div>").html(feature);
-        if (!$(context).triggerHandler('addedtooltip', [tooltip, context, evt])) {
-            $(context).append(tooltip);
+        if (!jQuery(context).triggerHandler('addedtooltip', [tooltip, context, evt])) {
+            jQuery(context).append(tooltip);
         }
     }
     for (var i = (index - 1); i > 0; i--) {
-        var fallback = $('div.wax-tooltip-' + i + ':not(.removed)');
+        var fallback = jQuery('div.wax-tooltip-' + i + ':not(.removed)');
         if (fallback.size() > 0) {
             fallback.addClass('hidden').hide();
         }
@@ -1445,11 +1445,11 @@ wax.tooltip.getToolTip = function(feature, context, index, evt) {
 // shown until this popup is closed or another popup is opened.
 wax.tooltip.click = function(feature, context, index) {
     var tooltip = wax.tooltip.getToolTip(feature, context, index);
-    var close = $('<a href="#close" class="close">Close</a>');
+    var close = jQuery('<a href="#close" class="close">Close</a>');
     close.click(function() {
         tooltip
             .addClass('removed')
-            .fadeOut('fast', function() { $(this).remove(); });
+            .fadeOut('fast', function() { jQuery(this).remove(); });
         return false;
     });
     tooltip
@@ -1463,21 +1463,21 @@ wax.tooltip.select = function(feature, context, layer_id, evt) {
     if (!feature) return;
 
     wax.tooltip.getToolTip(feature, context, layer_id, evt);
-    $(context).css('cursor', 'pointer');
-    $('div', context).css('cursor', 'pointer');
+    jQuery(context).css('cursor', 'pointer');
+    jQuery('div', context).css('cursor', 'pointer');
 };
 
 // Hide all tooltips on this layer and show the first hidden tooltip on the
 // highest layer underneath if found.
 wax.tooltip.unselect = function(feature, context, layer_id, evt) {
-    $(context)
+    jQuery(context)
         .css('cursor', 'default')
-    $('div.wax-tooltip-' + layer_id + ':not(.wax-popup)')
+    jQuery('div.wax-tooltip-' + layer_id + ':not(.wax-popup)')
         .remove();
     // TODO: remove
-    $('div', context).css('cursor', 'default');
+    jQuery('div', context).css('cursor', 'default');
 
-    $('div.wax-tooltip:first')
+    jQuery('div.wax-tooltip:first')
         .removeClass('hidden')
         .show();
 };
@@ -1496,14 +1496,14 @@ wax.ol.Embedder =
 
     // Add handlers to the map
     setMap: function(map) {
-      if ($('#' + this.el + '-script').length) {
+      if (jQuery('#' + this.el + '-script').length) {
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
-        $(map.div).prepend($('<input type="text" class="embed-src" />')
+        jQuery(map.div).prepend(jQuery('<input type="text" class="embed-src" />')
           .css({
               'z-index': '9999999999',
               'position': 'relative'
           })
-          .val("<div id='" + this.el + "-script'>" + $('#' + this.el + '-script').html() + "</div>"));
+          .val("<div id='" + this.el + "-script'>" + jQuery('#' + this.el + '-script').html() + "</div>"));
       }
       this.activate();
     },
@@ -1537,7 +1537,7 @@ wax.ol.Interaction =
     },
     
     setMap: function(map) {
-        $(map.div).bind('mousemove', $.proxy(this.getInfoForHover, this));
+        jQuery(map.div).bind('mousemove', jQuery.proxy(this.getInfoForHover, this));
         this.clickHandler = new OpenLayers.Handler.Click(
             this, {
                 click: this.getInfoForClick
@@ -1569,7 +1569,7 @@ wax.ol.Interaction =
         layerfound: for (var j = 0; j < layers.length; j++) {
             for (var x = 0; x < layers[j].grid.length; x++) {
                 for (var y = 0; y < layers[j].grid[x].length; y++) {
-                    var divpos = $(layers[j].grid[x][y].imgDiv).offset();
+                    var divpos = jQuery(layers[j].grid[x][y].imgDiv).offset();
                     if (divpos &&
                         ((divpos.top < sevt.pageY) &&
                          ((divpos.top + 256) > sevt.pageY) &&
@@ -1587,7 +1587,7 @@ wax.ol.Interaction =
     // Get all interactable layers
     viableLayers: function() {
         if (this._viableLayers) return this._viableLayers;
-        return this._viableLayers = $(this.map.layers).filter(
+        return this._viableLayers = jQuery(this.map.layers).filter(
             function(i) {
             // TODO: make better indication of whether
             // this is an interactive layer
@@ -1725,21 +1725,20 @@ wax.ol.Legend = OpenLayers.Class(OpenLayers.Control, {
 // Wax header
 var wax = wax || {};
 wax.ol = wax.ol || {};
-var $ = jQuery; // This is a hack and needs to be fixed.
 wax.ol.Switcher = OpenLayers.Class(OpenLayers.Control, {
     CLASS_NAME: 'wax.ol.Switcher',
 
     initialize: function(options) {
-        this.$element = $(options.e);
+        this.$element = jQuery(options.e);
         this.options = options || {};
         OpenLayers.Control.prototype.initialize.apply(this, [options || {}]);
     },
 
     layerClick: function(evt) {
       var element = evt.currentTarget;
-      var layer = $(element).data('layer');
-      $('a.active', this.$element).removeClass('active');
-      $.each(this.map.getLayersBy('isBaseLayer', false),
+      var layer = jQuery(element).data('layer');
+      jQuery('a.active', this.$element).removeClass('active');
+      jQuery.each(this.map.getLayersBy('isBaseLayer', false),
         function() {
           if (this.CLASS_NAME !== 'OpenLayers.Layer.Vector.RootContainer' &&
              this.displayInLayerSwitcher) {
@@ -1748,7 +1747,7 @@ wax.ol.Switcher = OpenLayers.Class(OpenLayers.Control, {
         }
       );
       layer.setVisibility(true);
-      $(element).addClass('active');
+      jQuery(element).addClass('active');
     },
 
     needsRedraw: function() {
@@ -1801,8 +1800,8 @@ wax.ol.Switcher = OpenLayers.Class(OpenLayers.Control, {
           if (layer.displayInLayerSwitcher) {
             // Only check a baselayer if it is *the* baselayer, check data layers if they are visible
             var checked = layer.isBaseLayer ? (layer === this.map.baseLayer) : layer.getVisibility();
-            var clickLayer = $.proxy(function(e) { this.layerClick(e); return false; }, this);
-            var $layer_element = $('<a></a>');
+            var clickLayer = jQuery.proxy(function(e) { this.layerClick(e); return false; }, this);
+            var $layer_element = jQuery('<a></a>');
             // Add states and click handler
             $layer_element
                 .click(clickLayer)

@@ -1,4 +1,4 @@
-.wax-tooltip {
+.wax-tooltip, .openlayers-tooltip {
   z-index:999999;
   position:absolute;
   background:#333;
@@ -7,6 +7,11 @@
   right:10px;
   bottom:10px;
   max-width:300px;
+}
+.openlayers-tooltip {
+  top: 10px;
+  height: 100px;
+  background: #b33;
 }
 .wax-tooltip .close {
   display:block;
