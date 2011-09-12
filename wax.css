@@ -1,4 +1,5 @@
-.wax-tooltip, .openlayers-tooltip {
+.wax-tooltip,
+.openlayers-tooltip {
   z-index:999999;
   position:absolute;
   background:#333;
@@ -6,12 +7,19 @@
   padding:10px;
   right:10px;
   bottom:10px;
-  max-width:300px;
+  /*max-width:300px;*/
+  width: 250px;
+  opacity: 0.85;
+}
+.wax-tooltip a,
+.wax-tooltip a:visited,
+.openlayers-tooltip a,
+.openlayers-tooltip a:visited {
+  /*color: #fff;*/
 }
 .openlayers-tooltip {
-  top: 10px;
+  bottom: 10px;
   height: 100px;
-  background: #b33;
 }
 .wax-tooltip .close {
   display:block;
